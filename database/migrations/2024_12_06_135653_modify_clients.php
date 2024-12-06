@@ -11,14 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('reservations');
+        Schema::table('clients', function (Blueprint $table) {
+            $table->dropColumn('dni');
+        });
+    
+        Schema::table('clients', function (Blueprint $table) {
+            $table->id()->first();
+        });
     }
+    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservations');
+        Schema::table('clients', function (Blueprint $table) {
+            //
+        });
     }
 };
