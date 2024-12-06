@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use Illuminate\Validation\Rule;
 
 class ClientController extends Controller
 {
@@ -14,15 +15,25 @@ class ClientController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
-            'dni' => 'required|string|max:20|unique:clients,dni',
+            'dni' => [
+                'required',
+                'string',
+                'max:10',
+                Rule::unique('clients', 'dni'),
+            ],
+            'email' => [
+                'nullable',
+                'email',
+                Rule::unique('clients', 'email'),
+            ],
             'telf' => 'nullable|string|max:15',
-            'email' => 'nullable|email|max:255',
         ]);
-        Client::create($validatedData);
 
-        return redirect()->route('client.add')->with('success', 'Client afegit correctament!');
+        Client::create($validated);
+
+        return redirect()->route('client.add')->with('success', 'El client s’ha afegit correctament.');
     }
 }
