@@ -19,6 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/addclient', [ClientController::class, 'add'])->name('client.add');
     Route::post('/addclient', [ClientController::class, 'store'])->name('client.store');
+
+     Route::get('/addreservation', [ReservationController::class, 'create'])->name('reservation.create'); // Vista del formulario
+    Route::post('/addreservation', [ReservationController::class, 'store'])->name('reservation.store'); // Almacenar reserva
 });
 
 require __DIR__.'/auth.php';
