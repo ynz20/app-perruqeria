@@ -11,6 +11,9 @@
         <form method="POST" action="{{ route('reservation.store') }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             @csrf
 
+            <!-- Aquest cap amb JavaScript li donarem el valor -->
+            <input type="hidden" name="client_id" value="{{ old('client_id') }}">
+
             <div class="mb-4">
                 <!-- Botò per obrir el modal de clients -->
                 <button type="button" id="select-client" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -39,9 +42,9 @@
                 <div class="overflow-y-auto max-h-64 border rounded mt-4">
                     <ul id="client-list" class="divide-y divide-gray-300">
                         @foreach ($clients as $client)
-                            <li class="client-item py-2 px-4 hover:bg-gray-200">
-                                <a href="{{ $client->dni }}">{{ $client->name }} {{ $client->surname }} - DNI: {{ $client->dni }}</a>
-                            </li>
+                        <li class="client-item py-2 px-4 hover:bg-gray-200">
+                            <a href="{{ $client->dni }}">{{ $client->name }} {{ $client->surname }} - DNI: {{ $client->dni }}</a>
+                        </li>
                         @endforeach
                     </ul>
                 </div>
@@ -57,20 +60,35 @@
     </div>
 
     <script>
-        document.getElementById('select-client').addEventListener('click', function () {
+        document.querySelectorAll('.client-item a').forEach(clientLink => {
+            clientLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                const dni = this.getAttribute('href'); // Obtener el DNI del enlace
+                document.querySelector('input[name="client_id"]').value = dni; // Asignar el DNI al campo oculto del formulario
+                window.dispatchEvent(new CustomEvent('close-modal', {
+                    detail: 'client-modal'
+                }));
+            });
+        });
+
+        document.getElementById('select-client').addEventListener('click', function() {
             // Disparar el evento de abrir el modal
-            window.dispatchEvent(new CustomEvent('open-modal', { detail: 'client-modal' }));
+            window.dispatchEvent(new CustomEvent('open-modal', {
+                detail: 'client-modal'
+            }));
         });
 
-        document.getElementById('close-modal').addEventListener('click', function () {
+        document.getElementById('close-modal').addEventListener('click', function() {
             // Disparar el evento de cerrar el modal
-            window.dispatchEvent(new CustomEvent('close-modal', { detail: 'client-modal' }));
+            window.dispatchEvent(new CustomEvent('close-modal', {
+                detail: 'client-modal'
+            }));
         });
 
-        document.getElementById('search-client').addEventListener('input', function () {
+        document.getElementById('search-client').addEventListener('input', function() {
             const filtreAplicat = this.value.toLowerCase();
             const clients = document.querySelectorAll('.client-item');
-            clients.forEach(function (client) {
+            clients.forEach(function(client) {
                 const clientName = client.textContent.toLowerCase();
 
                 if (clientName.includes(filtreAplicat)) {
