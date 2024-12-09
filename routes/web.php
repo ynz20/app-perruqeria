@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/addclient', [ClientController::class, 'add'])->name('client.add');
     Route::post('/addclient', [ClientController::class, 'store'])->name('client.store');
 
-     Route::get('/addreservation', [ReservationController::class, 'create'])->name('reservation.create'); // Vista del formulario
+     Route::get('/addreservation', [ReservationController::class, 'create'])->name('reservation.create'); // Vista del formulari
     Route::post('/addreservation', [ReservationController::class, 'store'])->name('reservation.store'); // Almacenar reserva
 });
 
