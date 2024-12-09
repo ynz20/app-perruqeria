@@ -10,20 +10,163 @@
 
         <form method="POST" action="{{ route('reservation.store') }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             @csrf
-
             <!-- Aquest cap amb JavaScript li donarem el valor -->
             <input type="hidden" name="client_id" value="{{ old('client_id') }}">
 
+            <!-- SELECCIÓ DE CLIENTS -->
             <div class="mb-4 flex items-center space-x-4">
                 <label for="client-info" class="block text-gray-700 text-sm font-bold mr-2"></label>
-                <input type="text" id="client-info" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ old('client_name') }}" placeholder="Nom i DNI del client seleccionat" disabled>
+                <input type="text" id="client-info" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nom i DNI del client seleccionat" disabled>
                 <button type="button" id="select-client" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Seleccionar Client
                 </button>
             </div>
+            <!-- Modal de selecció de clients -->
+            <x-modal :name="'client-modal'">
+                <div>
+                    <h3 class="text-xl font-bold">Seleccionar Client</h3>
 
+                    <!-- Filtres... -->
+                    <input type="text" id="search-client" class="w-full border rounded py-2 px-3 mt-4" placeholder="Filtrar...">
 
-            <!-- Mes camps de reserva -->
+                    <!-- Llista de clients -->
+                    <div class="overflow-y-auto max-h-64 border rounded mt-4">
+                        <ul id="client-list" class="divide-y divide-gray-300">
+                            @foreach ($clients as $client)
+                            <li class="client-item py-2 px-4 hover:bg-gray-200">
+                                <a href="{{ $client->dni }}" data-name=" {{ $client->name }} {{ $client->surname }}">{{ $client->name }} {{ $client->surname }} - DNI: {{ $client->dni }}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 flex justify-end">
+                        <button type="button" id="close-modal" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </x-modal>
+
+            <script>
+                document.querySelectorAll('.client-item a').forEach(clientLink => {
+                    clientLink.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const dni = this.getAttribute('href'); //Obtenim el DNI...
+                        const name = this.getAttribute('data-name');
+                        document.querySelector('input[name="client_id"]').value = dni;
+                        document.getElementById('client-info').value = `${name} - DNI: ${dni}` //Guardem el client seleccionat
+                        window.dispatchEvent(new CustomEvent('close-modal', {
+                            detail: 'client-modal'
+                        }));
+                    });
+                });
+
+                document.getElementById('select-client').addEventListener('click', function() {
+                    // Disparar el evento de abrir el modal
+                    window.dispatchEvent(new CustomEvent('open-modal', {
+                        detail: 'client-modal'
+                    }));
+                });
+
+                document.getElementById('close-modal').addEventListener('click', function() {
+                    // Disparar el evento de cerrar el modal
+                    window.dispatchEvent(new CustomEvent('close-modal', {
+                        detail: 'client-modal'
+                    }));
+                });
+
+                document.getElementById('search-client').addEventListener('input', function() {
+                    const filtreAplicat = this.value.toLowerCase();
+                    const clients = document.querySelectorAll('.client-item');
+                    clients.forEach(function(client) {
+                        const clientName = client.textContent.toLowerCase();
+                        if (clientName.includes(filtreAplicat)) {
+                            client.style.display = 'block';
+                        } else {
+                            client.style.display = 'none';
+                        }
+                    });
+                });
+            </script>
+
+            <input type="hidden" name="user_id" value="{{ old('user_dni') }}">
+
+            <!-- Selecció de usuaris (treballadors) -->
+            <div class="mb-4 flex items-center space-x-4">
+                <label for="user-info" class="block text-gray-700 text-sm font-bold mr-2"></label>
+                <input type="text" id="user-info" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nom i DNI del treballador seleccionat" disabled>
+                <button type="button" id="select-worker" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Seleccionar Treballador
+                </button>
+            </div>
+
+            <x-modal :name="'user-modal'">
+                <div>
+                    <h3 class="text-xl font-bold">Seleccionar Treballador</h3>
+
+                    <!-- Filtres... -->
+                    <input type="text" id="search-user" class="w-full border rounded py-2 px-3 mt-4" placeholder="Filtrar...">
+
+                    <!-- Llista de treballadors -->
+                    <div class="overflow-y-auto max-h-64 border rounded mt-4">
+                        <ul id="user-list" class="divide-y divide-gray-300">
+                            @foreach ($treballadors as $treballador)
+                            <li class="user-item py-2 px-4 hover:bg-gray-200">
+                                <a href="{{ $treballador->dni }}" data-name="{{ $treballador->name }} {{ $treballador->surname }}">{{ $treballador->name }} {{ $treballador->surname }} - DNI: {{ $treballador->dni }}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 flex justify-end">
+                        <button type="button" id="close-modal-users" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </x-modal>
+
+            <script>
+                document.querySelectorAll('.user-item a').forEach(clientLink => {
+                    clientLink.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const dni = this.getAttribute('href'); //Obtenim el DNI...
+                        const name = this.getAttribute('data-name');
+                        document.querySelector('input[name="user_id"]').value = dni;
+                        document.getElementById('user-info').value = `${name} - DNI: ${dni}` //Guardem el client seleccionat
+                        window.dispatchEvent(new CustomEvent('close-modal', {
+                            detail: 'user-modal'
+                        }));
+                    });
+                });
+
+                document.getElementById('select-worker').addEventListener('click', function() {
+                    // Disparar el evento de abrir el modal
+                    window.dispatchEvent(new CustomEvent('open-modal', {
+                        detail: 'user-modal'
+                    }));
+                });
+                document.getElementById('close-modal-users').addEventListener('click', function() {
+                    // Disparar el evento de cerrar el modal
+                    window.dispatchEvent(new CustomEvent('close-modal', {
+                        detail: 'user-modal'
+                    }));
+                });
+                document.getElementById('search-user').addEventListener('input', function() {
+                    const filtreAplicat = this.value.toLowerCase();
+                    const users = document.querySelectorAll('.user-item');
+                    users.forEach(function(user) {
+                        const userName = user.textContent.toLowerCase();
+                        if (userName.includes(filtreAplicat)) {
+                            user.style.display = 'block';
+                        } else {
+                            user.style.display = 'none';
+                        }
+                    });
+                });
+            </script>
+
 
             <div class="flex items-center justify-between">
                 <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
@@ -31,75 +174,5 @@
                 </button>
             </div>
         </form>
-
-        <!-- Component modal -->
-        <x-modal :name="'client-modal'">
-            <div>
-                <h3 class="text-xl font-bold">Seleccionar Client</h3>
-
-                <!-- Filtres... -->
-                <input type="text" id="search-client" class="w-full border rounded py-2 px-3 mt-4" placeholder="Filtrar...">
-
-                <!-- Llista de clients -->
-                <div class="overflow-y-auto max-h-64 border rounded mt-4">
-                    <ul id="client-list" class="divide-y divide-gray-300">
-                        @foreach ($clients as $client)
-                        <li class="client-item py-2 px-4 hover:bg-gray-200">
-                            <a href="{{ $client->dni }}" data-name=" {{ $client->name }} {{ $client->surname }}">{{ $client->name }} {{ $client->surname }} - DNI: {{ $client->dni }}</a>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <div class="mt-4 flex justify-end">
-                    <button type="button" id="close-modal" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-        </x-modal>
-
     </div>
-
-    <script>
-        document.querySelectorAll('.client-item a').forEach(clientLink => {
-            clientLink.addEventListener('click', function(event) {
-                event.preventDefault();
-                const dni = this.getAttribute('href');//Obtenim el DNI...
-                const name = this.getAttribute('data-name');
-                document.querySelector('input[name="client_id"]').value = dni;
-                document.getElementById('client-info').value = `${name} - DNI: ${dni}` //Guardem el client seleccionat
-                window.dispatchEvent(new CustomEvent('close-modal', {
-                    detail: 'client-modal'
-                }));
-            });
-        });
-
-        document.getElementById('select-client').addEventListener('click', function() {
-            // Disparar el evento de abrir el modal
-            window.dispatchEvent(new CustomEvent('open-modal', {
-                detail: 'client-modal'
-            }));
-        });
-
-        document.getElementById('close-modal').addEventListener('click', function() {
-            // Disparar el evento de cerrar el modal
-            window.dispatchEvent(new CustomEvent('close-modal', {
-                detail: 'client-modal'
-            }));
-        });
-
-        document.getElementById('search-client').addEventListener('input', function() {
-            const filtreAplicat = this.value.toLowerCase();
-            const clients = document.querySelectorAll('.client-item');
-            clients.forEach(function(client) {
-                const clientName = client.textContent.toLowerCase();
-                if (clientName.includes(filtreAplicat)) {
-                    client.style.display = 'block';
-                } else {
-                    client.style.display = 'none';
-                }
-            });
-        });
-    </script>
 </x-app-layout>
