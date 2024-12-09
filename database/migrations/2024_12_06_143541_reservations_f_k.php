@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('client_id');
             $table->foreign('client_id')->references('dni')->on('clients');
-            $table->foreignId('user_id')->constrained('users');
+            $table->string('dni', 255); // Defineix 'dni' com a string
+            $table->foreign('dni')->references('dni')->on('users'); // Afegeix la clau forana
             $table->foreignId('service_id')->constrained('services');
             $table->timestamp('reservation_date');
             $table->string('status')->default('pendent');
