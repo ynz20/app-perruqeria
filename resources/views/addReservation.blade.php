@@ -72,7 +72,6 @@
             const clients = document.querySelectorAll('.client-item');
             clients.forEach(function (client) {
                 const clientName = client.textContent.toLowerCase();
-
                 if (clientName.includes(filtreAplicat)) {
                     client.style.display = 'block';
                 } else {
