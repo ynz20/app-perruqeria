@@ -14,12 +14,14 @@
             <!-- Aquest cap amb JavaScript li donarem el valor -->
             <input type="hidden" name="client_id" value="{{ old('client_id') }}">
 
-            <div class="mb-4">
-                <!-- Botò per obrir el modal de clients -->
+            <div class="mb-4 flex items-center space-x-4">
+                <label for="client-info" class="block text-gray-700 text-sm font-bold mr-2"></label>
+                <input type="text" id="client-info" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ old('client_name') }}" placeholder="Nom i DNI del client seleccionat" disabled>
                 <button type="button" id="select-client" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Seleccionar Client
                 </button>
             </div>
+
 
             <!-- Mes camps de reserva -->
 
@@ -43,7 +45,7 @@
                     <ul id="client-list" class="divide-y divide-gray-300">
                         @foreach ($clients as $client)
                         <li class="client-item py-2 px-4 hover:bg-gray-200">
-                            <a href="{{ $client->dni }}">{{ $client->name }} {{ $client->surname }} - DNI: {{ $client->dni }}</a>
+                            <a href="{{ $client->dni }}" data-name=" {{ $client->name }} {{ $client->surname }}">{{ $client->name }} {{ $client->surname }} - DNI: {{ $client->dni }}</a>
                         </li>
                         @endforeach
                     </ul>
@@ -63,8 +65,10 @@
         document.querySelectorAll('.client-item a').forEach(clientLink => {
             clientLink.addEventListener('click', function(event) {
                 event.preventDefault();
-                const dni = this.getAttribute('href'); // Obtener el DNI del enlace
-                document.querySelector('input[name="client_id"]').value = dni; // Asignar el DNI al campo oculto del formulario
+                const dni = this.getAttribute('href');//Obtenim el DNI...
+                const name = this.getAttribute('data-name');
+                document.querySelector('input[name="client_id"]').value = dni;
+                document.getElementById('client-info').value = `${name} - DNI: ${dni}` //Guardem el client seleccionat
                 window.dispatchEvent(new CustomEvent('close-modal', {
                     detail: 'client-modal'
                 }));
