@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('dni', 255); // Defineix 'dni' com a string
             $table->foreign('dni')->references('dni')->on('users'); // Afegeix la clau forana
             $table->foreignId('service_id')->constrained('services');
-            $table->timestamp('reservation_date');
+            $table->date('reservation_date');
+            $table->time('reservation_time');
             $table->string('status')->default('pendent');
-            $table->timestamps();
         });
     }
 

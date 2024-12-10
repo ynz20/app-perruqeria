@@ -46,6 +46,18 @@
                 item-surname-key="surname"
                 item-id-key="dni" />
 
+                <x-selector-component
+                label="Seleccionar Servei"
+                input-id="service-info"
+                input-placeholder="Servei seleccionat "
+                button-id="select-service"
+                modal-name="service-modal"
+                list-id="service-list"
+                search-id="search-service"
+                :items="$serveis"
+                item-name-key="name"
+                item-surname-key="price"
+                item-id-key="id" />
 
             <div class="flex items-center justify-between">
                 <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
+use App\Models\Service;
 use App\Models\User;
 
 class ReservationController extends Controller
@@ -13,7 +14,8 @@ class ReservationController extends Controller
     {
         $clients = Client::all();
         $treballadors = User::all();
-        return view('addReservation', compact('clients', 'treballadors'));
+        $serveis = Service::all();
+        return view('addReservation', compact('clients', 'treballadors', 'serveis'));
     }
 
     public function store(Request $request)
