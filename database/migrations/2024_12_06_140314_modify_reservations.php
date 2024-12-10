@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->constrained('clients');
-        
             $table->foreignId('service_id')->constrained('services');
-            $table->timestamp('reservation_date');
+            $table->date('reservation_date'); // Campo para la fecha
+            $table->time('reservation_time'); // Campo para la hora
             $table->string('status')->default('pendent');
-            $table->timestamps();
         });
     }
 
