@@ -49,4 +49,15 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Reservation::class);
     }
+
+    // Metodes per comprovar el rol.
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isUser()
+    {
+        return $this->role === 'user';
+    }
 }
