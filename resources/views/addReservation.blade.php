@@ -25,6 +25,12 @@
                 item-surname-key="surname"
                 item-id-key="dni" />
 
+
+            <div class="mb-4">
+                <label for="reservation-date" class="block text-gray-700 text-sm font-bold mb-2">Seleccioni data</label>
+                <input type="date" name="reservation-date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            </div>
+            
             <input type="hidden" name="user_id" value="{{ old('user_dni') }}">
 
             <x-selector-component
