@@ -25,9 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+ 
     Route::get('/addclient', [ClientController::class, 'add'])->name('client.add');
     Route::post('/addclient', [ClientController::class, 'store'])->name('client.store');
-
+    
     Route::get('/addreservation', [ReservationController::class, 'create'])->name('reservation.create'); // Vista del formulari
     Route::post('/addreservation', [ReservationController::class, 'store'])->name('reservation.store'); // Almacenar reserva
 
