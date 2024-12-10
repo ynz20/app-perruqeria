@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('dni')->unique();
             $table->string('surname')->after('name');
             $table->string('nick')->after('surname');
-            $table->string('role')->default('user'); // Afegeix el camp 'role' amb valor per defecte 'user'
+            $table->boolean('is_admin')->nullable();// Afegeix el camp 'role' amb valor per defecte 'user'
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role'); // Elimina el camp 'role' si es revoca la migració
+            $table->dropColumn('is_admin'); // Elimina el camp 'role' si es revoca la migració
             $table->dropColumn('nick'); // Elimina el camp 'nick'
             $table->dropColumn('surname'); // Elimina el camp 'surname'
         });

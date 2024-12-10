@@ -22,7 +22,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
         // Autenticar al usuario
         $request->authenticate();
@@ -33,12 +33,12 @@ class AuthenticatedSessionController extends Controller
         // Obtener el usuario autenticado
         $user = Auth::user();
 
-        // Redirigir según el rol del usuario
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        } else {
-            return redirect()->route('user.dashboard');
+        // Verifica si el usuario es administrador
+        if ($user->is_admin) {
+            return redirect()->route('admin.dashboard'); // Redirige a la vista de administrador
         }
+
+        return redirect()->route('dashboard'); // Redirige a la vista normal
     }
 
     /**
