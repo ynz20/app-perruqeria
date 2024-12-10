@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('service_id')->constrained('services');
             $table->date('reservation_date');
             $table->time('reservation_time');
+            $table->time('reservation_finalitzation');
             $table->string('status')->default('pendent');
         });
     }

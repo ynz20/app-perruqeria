@@ -15,6 +15,7 @@ class Reservation extends Model
         'service_id',
         'reservation_date',
         'reservation_time',
+        'reservation_finalitzation',
         'status',
     ];
 
