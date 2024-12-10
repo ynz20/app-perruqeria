@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Client extends Model
 {
     use HasFactory;
-    protected $fillable = ['dni', 'name', 'surname', 'telf', 'email'];
+    protected $fillable = ['name', 'surname', 'dni', 'email', 'telf'];
 
     public function reservations()
     {

@@ -16,7 +16,7 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth','verified')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
 });
@@ -25,9 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+ 
     Route::get('/addclient', [ClientController::class, 'add'])->name('client.add');
     Route::post('/addclient', [ClientController::class, 'store'])->name('client.store');
-
+    
     Route::get('/addreservation', [ReservationController::class, 'create'])->name('reservation.create'); // Vista del formulari
     Route::post('/addreservation', [ReservationController::class, 'store'])->name('reservation.store'); // Almacenar reserva
 

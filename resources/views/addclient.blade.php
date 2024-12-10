@@ -13,31 +13,41 @@
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 font-bold mb-2">Nom:</label>
                 <input type="text" name="name" id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                @error('name')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="surname" class="block text-gray-700 font-bold mb-2">Cognom:</label>
                 <input type="text" name="surname" id="surname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                @error('surname')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="dni" class="block text-gray-700 font-bold mb-2">DNI:</label>
                 <input type="text" name="dni" id="dni" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                 @error('dni')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
+
 
             <div class="mb-4">
                 <label for="telf" class="block text-gray-700 font-bold mb-2">Telèfon:</label>
                 <input type="text" name="telf" id="telf" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                @error('telf')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="email" class="block text-gray-700 font-bold mb-2">Email:</label>
                 <input type="email" name="email" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 @error('email')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
@@ -47,9 +57,9 @@
                 </button>
             </div>
             @if (session('success'))
-                <div class="bg-green-500 text-white p-4 rounded mb-4 text-center">
-                    {{ session('success') }}
-                </div>
+            <div class="bg-green-500 text-white p-4 rounded mb-4 text-center">
+                {{ session('success') }}
+            </div>
             @endif
         </form>
     </div>
