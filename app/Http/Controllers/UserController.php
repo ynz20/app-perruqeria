@@ -15,29 +15,44 @@ class UserController extends Controller
     {
         return view('user.dashboard'); // Asegúrate de tener esta vista creada
     }
-    public function changeRoleToAdmin(Request $request)
+    public function changeRoleToAdmin(Request $request, $id)
     {
-        // Obtener el usuario autenticado
-        $user = Auth::user();
+        // Obtenir l'usuari autenticat
+        $authUser  = Auth::user();
 
-        if ($user) {
-            // Verificar si el rol actual es 'user'
-            if ($user->role === 'user') {
-                // Cambiar el rol a 'admin'
-                $user->role = 'admin';
 
-                // Guardar los cambios en la base de datos
-                $user->save();
 
-                // Redirigir a la vista de dashboard con un mensaje de éxito
-                return redirect()->route('user.dashboard')->with('status', 'Rol cambiado a Administrador exitosamente');
+        // Verificar si l'usuari autenticat és un administrador
+        if ($authUser) {
+            // Buscar l'usuari el rol del qual es vol canviar
+            $user = User::find($id);
+
+
+
+            if ($user) {
+                // Verificar si l'usuari no és ja un administrador
+                if (!$user->is_admin) {
+                    // Canviar l'estat a administrador
+                    $user->is_admin = 1;
+
+                    // Desar els canvis a la base de dades
+                    $user->save();
+
+                    // Redirigir a la vista de dashboard amb un missatge d'èxit
+                    return redirect()->route('admin.dashboard')->with('status', 'Rol canviat a Administrador amb èxit');
+                }
+
+                // Si l'usuari ja és administrador, no es permet canviar-lo
+                return redirect()->route('admin.dashboard')->with('error', 'L\'usuari ja és Administrador');
             }
 
-            // Si el rol no es 'user', no se permite cambiarlo
-            return redirect()->route('user.dashboard')->with('error', 'El rol no puede ser cambiado');
+            // Si l'usuari no existeix, mostrar un error
+            return redirect()->route('admin.dashboard')->with('error', 'Usuari no trobat');
         }
 
-        // Si el usuario no está autenticado, mostrar un error
-        return redirect()->route('user.dashboard')->with('error', 'Error al cambiar el rol');
+
+
+        // Si l'usuari no està autenticat o no és admin, mostrar un error
+        return redirect()->route('dashboard')->with('error', 'No tens permís per canviar el rol');
     }
 }

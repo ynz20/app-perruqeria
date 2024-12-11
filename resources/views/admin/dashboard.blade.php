@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h3 class="text-white font-bold">Vista del Admin</h3>
+        <h3 class="text-white font-bold text-3xl">Vista del Admin</h3>
     </x-slot>
 
     <div class="py-12">
@@ -13,15 +13,19 @@
         </div>
     </div>
 
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <form method="GET" action="{{ route('service.add') }}">
-                    <x-primary-button type="submit">Crear Servei</x-primary-button>
+                <form method="GET" action="{{ route('service.view') }}">
+                    <x-primary-button type="submit">Gestio de Serveis</x-primary-button>
                 </form>
             </div>
         </div>
     </div>
+
+
+
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -34,6 +38,11 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mt-8">
                 <div class="p-6">
                     <h3 class="text-xl font-bold mb-4 text-white font-bold">Usuaris amb Rol 'user'</h3>
+                    @if($users->isEmpty())
+                    <div class="bg-orange-500 text-white text-1xl font-bold p-4 rounded mb-4">
+                        No s'han trobat treballadors registrats.
+                    </div>
+                    @else
                     <table class="min-w-full bg-gray-100 dark:bg-gray-700 shadow-md rounded-lg">
                         <thead class="bg-blue-600 dark:bg-blue-800">
                             <tr>
@@ -45,6 +54,7 @@
                             </tr>
                         </thead>
                         <tbody>
+
                             @foreach($users as $user)
                             <tr class="bg-white">
                                 <td class="px-6 py-2 border">{{ $user->dni }}</td>
@@ -52,7 +62,7 @@
                                 <td class="px-6 py-2 border">{{ $user->email }}</td>
                                 <td class="px-6 py-2 border">{{ $user->role }}</td>
                                 <td class="px-6 py-2 border">
-                                    <form method="POST" action="{{ route('user.changeRoleToAdmin') }}">
+                                    <form method="POST" action="{{ route('user.changeRoleToAdmin', $user->id) }}">
                                         @csrf
                                         <x-primary-button type="submit">Cambiar Rol a Admin</x-primary-button>
                                     </form>
@@ -61,6 +71,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @endif
                 </div>
             </div>
         </div>

@@ -19,7 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $fillable = ['dni', 'name', 'surname', 'nick', 'telf', 'email', 'password', 'role'];
+    protected $fillable = ['dni', 'name', 'surname', 'nick', 'telf', 'email', 'password', 'is_admin'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -50,14 +50,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Reservation::class);
     }
 
-    // Metodes per comprovar el rol.
-    public function isAdmin()
+    public function showUsers()
     {
-        return $this->role === 'admin';
-    }
-
-    public function isUser()
-    {
-        return $this->role === 'user';
+        $users = User::all(); // Obtener todos los usuarios
+        return view('dashboard', compact('users')); // Pasar la variable a la vista
     }
 }
