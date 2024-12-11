@@ -52,7 +52,7 @@
                                 <td class="px-6 py-2 border">{{ $user->email }}</td>
                                 <td class="px-6 py-2 border">{{ $user->role }}</td>
                                 <td class="px-6 py-2 border">
-                                    <form method="POST" action="{{ route('user.changeRoleToAdmin') }}">
+                                    <form method="POST" action="{{ route('user.changeRoleToAdmin', $user->id) }}">
                                         @csrf
                                         <x-primary-button type="submit">Cambiar Rol a Admin</x-primary-button>
                                     </form>

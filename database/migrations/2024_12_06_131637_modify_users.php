@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('dni')->unique();
             $table->string('surname')->after('name');
             $table->string('nick')->after('surname');
-            $table->boolean('is_admin')->nullable();// Afegeix el camp 'role' amb valor per defecte 'user'
+            $table->boolean('is_admin')->default(0);// Afegeix el camp 'role' amb valor per defecte 'user'
         });
     }
 
