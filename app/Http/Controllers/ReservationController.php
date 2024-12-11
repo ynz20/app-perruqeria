@@ -43,6 +43,7 @@ class ReservationController extends Controller
             'status' => 'pendent',
         ]);
         
+
         return redirect()->route('reservation.create')->with('success', 'Reserva creada correctament.');
     }
 }

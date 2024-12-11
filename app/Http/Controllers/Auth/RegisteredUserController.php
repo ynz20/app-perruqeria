@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
             'surname' => ['required', 'string', 'max:255'],
             'nick' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'role' => 'required|string|in:user',
+            // 'is_admin' => 'boolean',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -45,7 +45,7 @@ class RegisteredUserController extends Controller
             'surname' => $request->surname,
             'nick' => $request->nick,
             'email' => $request->email,
-            'role' => $request->role, 
+            // 'is_admin' => $request->is_admin, 
             'password' => Hash::make($request->password),
         ]);
 
@@ -54,6 +54,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('user.dashboard', absolute: false));
+        return redirect(route('dashboard', absolute: false));
     }
 }

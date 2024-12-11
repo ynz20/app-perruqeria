@@ -8,16 +8,15 @@ class AdminController extends Controller
 {
     public function index()
     {
-       //Obtenim els usuaris amb el rol user
-        $users = $this->getUsersWithRole('user');
+        // Obtenim els usuaris que no són administradors (is_admin = 0)
+        $users = $this->getNormalUsers();
 
-      
         return view('admin.dashboard', ['users' => $users]);
     }
 
-
-    protected function getUsersWithRole($role)
+    protected function getNormalUsers()
     {
-        return User::where('role', $role)->get();
+        // Filtrar usuaris amb is_admin = 0
+        return User::where('is_admin', 0)->get();
     }
 }
