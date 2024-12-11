@@ -4,15 +4,24 @@
         <input
             type="text"
             id="{{ $inputId }}"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="{{ $inputPlaceholder }}"
             disabled>
-        <button
-            type="button"
-            id="{{ $buttonId }}"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            {{ $label }}
-        </button>
+            @if ($inputId == 'user-info')
+                <button
+                    type="button"
+                    id="{{ $buttonId }}"
+                    class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    {{ $label }}
+                </button>
+            @else
+                <button
+                    type="button"
+                    id="{{ $buttonId }}"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    {{ $label }}
+                </button>
+            @endif
     </div>
 
     <!-- Component Modal -->
@@ -40,6 +49,7 @@
                 </ul>
             </div>
 
+            <!-- Livewire -->
             <div class="mt-4 flex justify-end">
                 <button 
                     type="button"
@@ -67,7 +77,6 @@
             });
         });
 
-
         document.getElementById('{{ $buttonId }}').addEventListener('click', function() {
             window.dispatchEvent(new CustomEvent('open-modal', { detail: '{{ $modalName }}' }));
         });
@@ -84,5 +93,9 @@
                 item.style.display = text.includes(filter) ? 'block' : 'none';
             });
         });
+
+        // @if ($inputId == 'user-info')
+
+        // @endif
     </script>
 </div>
