@@ -27,6 +27,7 @@ class ProfileUpdateRequest extends FormRequest
             ],
             'surname' => ['required', 'string', 'max:255'],
             'nick' => ['required', 'string', 'max:255'],
+            // 'dni' => ['required', 'string', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)]
         ];
     }
 }
