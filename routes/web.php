@@ -25,8 +25,12 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     // Rutes per afegir serveis (només administradors)
+    Route::get('/renderservice', [ServiceController::class, 'index'])->name('service.view');
     Route::get('/addservice', [ServiceController::class, 'add'])->name('service.add');
     Route::post('/addservice', [ServiceController::class, 'store'])->name('service.store');
+    Route::get('/service/edit/{id}', [ServiceController::class, 'edit'])->name('service.edit');
+    Route::put('/service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
+    Route::delete('/service/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
 });
 
 // Rutes per a usuaris autenticats
