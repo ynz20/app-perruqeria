@@ -18,7 +18,7 @@
                     </x-nav-link>
                     @else
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard Usuario') }}
+                        {{ __('Dashboard Usuari') }}
                     </x-nav-link>
                     @endif
                 </div>

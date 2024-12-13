@@ -13,7 +13,7 @@ class UserController extends Controller
 
     public function index()
     {
-        return view('user.dashboard'); // Asegúrate de tener esta vista creada
+        return view('dashboard'); // Asegúrate de tener esta vista creada
     }
     public function changeRoleToAdmin(Request $request, $id)
     {
