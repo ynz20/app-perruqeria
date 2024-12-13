@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('client_id');
             $table->foreign('client_id')->references('dni')->on('clients');
             $table->string('user_id', 255);
-            $table->foreign('user_id')->references('dni')->on('users'); // Afegeix la clau forana
+            $table->foreign('user_id')->references('dni')->on('users');
             $table->foreignId('service_id')->constrained('services');
             $table->date('reservation_date');
             $table->time('reservation_time');

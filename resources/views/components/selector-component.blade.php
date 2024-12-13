@@ -62,40 +62,43 @@
     </x-modal>
 
     <script>
+        // Afegir un esdeveniment de clic a cada enllaç de la llista
         document.querySelectorAll('#{{ $listId }} .item a').forEach(link => {
             link.addEventListener('click', function(event) {
-                event.preventDefault();
-                const id = this.getAttribute('href');
-                const name = this.getAttribute('data-name');
+                event.preventDefault(); // Evitar l'acció per defecte de l'enllaç
+                const id = this.getAttribute('href'); // Obtenir l'ID de l'element seleccionat
+                const name = this.getAttribute('data-name'); // Obtenir el nom de l'element seleccionat
                 
+                // Actualitzar el camp d'entrada amb el nom i l'ID seleccionats
                 document.getElementById('{{ $inputId }}').value = `${name} -  ${id}`;
-                const hiddenInputName = '{{ str_replace("-info", "_id", $inputId) }}';
-                const hiddenInput = document.querySelector(`input[name="${hiddenInputName}"]`);
-                if (hiddenInput) hiddenInput.value = id;
+                const hiddenInputName = '{{ str_replace("-info", "_id", $inputId) }}'; // Nom del camp ocult
+                const hiddenInput = document.querySelector(`input[name="${hiddenInputName}"]`); // Buscar el camp ocult
+                if (hiddenInput) hiddenInput.value = id; // Actualitzar el valor del camp ocult
 
+                // Tancar el modal
                 window.dispatchEvent(new CustomEvent('close-modal', { detail: '{{ $modalName }}' }));
             });
         });
 
+        // Afegir un esdeveniment de clic al botó per obrir el modal
         document.getElementById('{{ $buttonId }}').addEventListener('click', function() {
             window.dispatchEvent(new CustomEvent('open-modal', { detail: '{{ $modalName }}' }));
         });
 
+        // Afegir un esdeveniment de clic al botó de tancament del modal
         document.getElementById('close-modal-{{ $modalName }}').addEventListener('click', function() {
             window.dispatchEvent(new CustomEvent('close-modal', { detail: '{{ $modalName }}' }));
         });
 
+        // Afegir un esdeveniment d'entrada al camp de cerca
         document.getElementById('{{ $searchId }}').addEventListener('input', function() {
-            const filter = this.value.toLowerCase();
-            const items = document.querySelectorAll('#{{ $listId }} .item');
+            const filter = this.value.toLowerCase(); // Obtenir el valor del filtre
+            const items = document.querySelectorAll('#{{ $listId }} .item'); // Obtenir tots els elements de la llista
             items.forEach(item => {
-                const text = item.textContent.toLowerCase();
+                const text = item.textContent.toLowerCase(); // Obtenir el text de l'element
+                // Mostrar o ocultar l'element segons el filtre
                 item.style.display = text.includes(filter) ? 'block' : 'none';
             });
         });
-
-        // @if ($inputId == 'user-info')
-
-        // @endif
     </script>
 </div>

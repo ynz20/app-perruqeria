@@ -1,34 +1,28 @@
 <?php
 
-// En UserController.php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth; // Importa el Facade de Auth
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-
+    // Mètode per mostrar el tauler d'usuari
     public function index()
     {
-        return view('user.dashboard'); // Asegúrate de tener esta vista creada
+        return view('user.dashboard'); // Retorna la vista 'user.dashboard'
     }
+
+    // Mètode per canviar el rol d'un usuari a administrador
     public function changeRoleToAdmin(Request $request, $id)
     {
         // Obtenir l'usuari autenticat
         $authUser  = Auth::user();
 
-
-
         // Verificar si l'usuari autenticat és un administrador
         if ($authUser) {
             // Buscar l'usuari el rol del qual es vol canviar
             $user = User::find($id);
-
-
-
             if ($user) {
                 // Verificar si l'usuari no és ja un administrador
                 if (!$user->is_admin) {
@@ -49,8 +43,6 @@ class UserController extends Controller
             // Si l'usuari no existeix, mostrar un error
             return redirect()->route('admin.dashboard')->with('error', 'Usuari no trobat');
         }
-
-
 
         // Si l'usuari no està autenticat o no és admin, mostrar un error
         return redirect()->route('dashboard')->with('error', 'No tens permís per canviar el rol');
