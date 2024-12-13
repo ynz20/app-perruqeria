@@ -11,6 +11,7 @@ class UserController extends Controller
     public function index()
     {
         return view('user.dashboard'); // Retorna la vista 'user.dashboard'
+
     }
 
     // Mètode per canviar el rol d'un usuari a administrador
