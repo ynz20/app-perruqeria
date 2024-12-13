@@ -67,6 +67,7 @@
                     Afegir Reserva
                 </button>
             </div>
+            <x-success-message :message="session('success')" />
         </form>
     </div>
 </x-app-layout>

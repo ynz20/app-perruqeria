@@ -49,12 +49,7 @@
                     Modificar Servei
                 </button>
             </div>
-
-            @if (session('success'))
-                <div class="bg-green-500 text-white p-4 rounded mb-4 text-center mt-10">
-                    {{ session('success') }}
-                </div>
-            @endif
+            <x-success-message :message="session('success')" />
         </form>
     </div>
 </x-app-layout>
